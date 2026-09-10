@@ -714,7 +714,7 @@
 							"chance": 0.5
 						}
 					],
-					"conditions": [{"type": "has-item", "item": "ПИСТОЛЕТ"}, {"type": "has-item", "item": "ЛУЧ ДОБРА"}, {"type": "flag-cleared", "flag": "room-5.defeated-guard"}]
+					"conditions": [{"type": "has-item", "item": "ЛУЧЕМЁТ"}, {"type": "has-item", "item": "ЛУЧ ДОБРА"}, {"type": "flag-cleared", "flag": "room-5.defeated-guard"}]
 				},
 				{
 					"text": "ВЕРНУТЬСЯ",
@@ -858,7 +858,7 @@
 
 		"gameover": {
 			"name": "gameover",
-			"text": "ВЫ ЗАСНУЛИ",
+			"text": "ВЫ ЗАСНУЛИ\n======================\n=#####==#=====#=##====\n=#======##====#=#=#===\n=#======#=#===#=#==#==\n=#####==#==#==#=#===#=\n=#======#===#=#=#==#==\n=#======#=====#=#=#===\n=#####==#=====#=##====\n======================",
 			"choices": [
 				{
 					"text": "ДАДАДАДАДАДА",
@@ -1022,7 +1022,7 @@
 				"thx_text": "СПАСИБО ЗА ПОКУПКУ",
 				"location": "shop",
 				"sells": [
-					{"amount": 1, "item": "ПИСТОЛЕТ", "price": 20, "ending": "ОВ"},
+					{"amount": 1, "item": "ЛУЧЕМЁТ", "price": 20, "ending": "ОВ"},
 					{"amount": 3, "item": "ЛУЧ ДОБРА", "price": 1, "ending": ""}
 				],
 				"buys": []
