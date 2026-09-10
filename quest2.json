@@ -1,0 +1,1091 @@
+{
+	"name": "ПОБЕГ ИЗ МАЙКРОСОФТ (БЕЗ НЕГАТИВА ЭДИШН)",
+	"locale": {
+		"quest_launch": "ЗАПУСК КВЕСТА QUEST!",
+		"choice": "ВАШ ВЫБОР: ",
+		"got_item": "ВЫ ПОЛУЧИЛИ 'ITEM' xAMOUNT",
+		"lost_item": "ВЫ ПОТЕРЯЛИ 'ITEM' xAMOUNT",
+		"invalid_choice": "ВВЕДИТЕ ЧИСЛО ОТ MIN ДО MAX!",
+		"open_inventory": "ПРОСМОТРЕТЬ ИНВЕНТАРЬ",
+		"inventory_msg": "ВАШ ИНВЕНТАРЬ:"
+	},
+	"locations": {
+		"start": {
+			"name": "start",
+			"text": "ВАС ЗАБРАЛ В РЫБСТВО МАЙКРОСОФТ",
+			"choices": [
+				{
+					"text": "НАЧАТЬ КВЕСТ",
+					"result": {
+						"text": "",
+						"type": "goto",
+						"goto": "room-1"
+					}
+				}
+			]
+		},
+			
+		"room-1": {
+			"name": "room-1",
+			"text": "ВЫ В ОФИСЕ",
+			"choices": [
+				{
+					"text": "РАБОТАТЬ НА КОПИЛОТ И ТЕЛЕМЕТРИЮ",
+					"result": {
+						"text": "ВЫ ПОРАБОТАЛИ\nВЫ НЕ ЗАМЕТИЛИ, КАК ДВЕРИ И ОКНА ЗАКРЫЛИСЬ, А ОБСТАНОВКА СМЕНИЛАСЬ",
+						"type": "goto",
+						"goto": "locked"
+					}
+				},
+				{
+					"text": "ПОПРОСИТЬ У КОЛЛЕГИ ВЕЩИ",
+					"result": {
+						"text": "ВАШ КОЛЛЕГА ОТВОРАЧИВАЕТСЯ\nВЫ ПРОСИТЕ У НЕГО ОТДАТЬ ЧТО-ТО\nОН ПАДАЕТ НА ПОЛ И ЗАСЫПАЕТ",
+						"type": "goto",
+						"goto": "fight-1-success"
+					},
+					"condition": {"type": "not-choiced", "choice": "room-1.2"}
+				},
+				{
+					"text": "ПОДОЙТИ К КОЛЛЕГЕ",
+					"result": {
+						"text": "ОН ЕЩЁ СПИТ",
+						"type": "goto",
+						"goto": "fight-1-success"
+					},
+					"condition": {"type": "choiced", "choice": "room-1.2"}
+				},
+				{
+					"text": "ОТКРЫТЬ ОКНО",
+					"result": {
+						"text": "ВЫ ОТКРЫЛИ ОКНО",
+						"type": "none"
+					},
+					"condition": {"type": "not-choiced", "choice": "room-1.4"}
+				},
+				{
+					"text": "ВЫЛЕЗТИ ЧЕРЕЗ ОКНО",
+					"result": {
+						"text": "ВЫ ПЕРЕЛЕЗАЕТЕ НА УЛИЦУ ЧЕРЕЗ ОКНО",
+						"type": "goto",
+						"goto": "street-1"
+					},
+					"condition": {"type": "choiced", "choice": "room-1.4"}
+				}
+			]
+		},
+		
+		"locked": {
+			"name": "locked",
+			"text": "ЧТО ДЕЛАТЬ?",
+			"choices": [
+				{
+					"text": "ОБЫСКАТЬ ОФИС",
+					"result": {
+						"text": "НА ПОЛУ ВЫ НАХОДИТЕ ЧЕЙ-ТО ЧАЙНЫЙ ПАКЕТИК И ТАБЛИЧКУ 'ОФИС №3259'",
+						"type": "get-item",
+						"item": "ЧАЙНЫЙ ПАКЕТИК"
+					},
+					"condition": {"type": "not-choiced", "choice": "locked.1"}
+				},
+				{
+					"text": "ИСКАТЬ КЛЮЧ",
+					"results": [
+						{
+							"text": "НА ПОЛУ ВЫ НАХОДИТЕ РЖАВЫЙ КЛЮЧ",
+							"type": "sublocation",
+							"choices": [
+								{
+									"text": "ПОДОБРАТЬ",
+									"results": [
+										{
+											"text": "ВЫ ПОДБИРАЕТЕ КЛЮЧ",
+											"type": "get-item",
+											"item": "РЖАВЫЙ КЛЮЧ"
+										},
+										
+										{
+											"text": "",
+											"type": "set-flag",
+											"flag": "locked.picked-key"
+										}
+									]
+								},
+								
+								{
+									"text": "ИГНОРИРОВАТЬ",
+									"result": {
+										"text": "ВЫ ОТОШЛИ ОТ КЛЮЧА",
+										"type": "goto",
+										"goto": "locked"
+									}
+								}
+							],
+							"chance": 0.35
+						},
+						{
+							"text": "ВЫ НЕ НАХОДИТЕ НИЧЕГО",
+							"type": "none",
+							"chance": 0.65
+						}
+					],
+					"conditions": [{"type": "not-choiced", "choice": "locked.2"}, {"type": "flag-cleared", "flag": "locked.picked-key"}]
+				},
+				
+				{
+					"text": "ИСКАТЬ КЛЮЧ ДАЛЬШЕ",
+					"results": [
+						{
+							"text": "НА ПОЛУ ВЫ НАХОДИТЕ РЖАВЫЙ КЛЮЧ",
+							"type": "sublocation",
+							"choices": [
+								{
+									"text": "ПОДОБРАТЬ",
+									"results": [
+										{
+											"text": "ВЫ ПОДБИРАЕТЕ КЛЮЧ",
+											"type": "get-item",
+											"item": "РЖАВЫЙ КЛЮЧ"
+										},
+										
+										{
+											"text": "",
+											"type": "set-flag",
+											"flag": "locked.picked-key"
+										}
+									]
+								},
+								
+								{
+									"text": "ИГНОРИРОВАТЬ",
+									"result": {
+										"text": "ВЫ ОТОШЛИ ОТ КЛЮЧА",
+										"type": "goto",
+										"goto": "locked"
+									}
+								}
+							],
+							"chance": 0.35
+						},
+						{
+							"text": "ВЫ НЕ НАХОДИТЕ НИЧЕГО",
+							"type": "none",
+							"chance": 0.65
+						}
+					],
+					"conditions": [{"type": "choiced", "choice": "locked.2"}, {"type": "flag-cleared", "flag": "locked.picked-key"}]
+				},
+				
+				{
+					"text": "ОТКРЫТЬ ДВЕРЬ",
+					"result": {
+						"text": "ОДНА ИЗ ДВЕРЕЙ БЫЛА БЕЗ ЗАМКА\nВЫ ЕЁ ОТКРЫЛИ",
+						"type": "goto",
+						"goto": "room-2"
+					},
+					"condition": {"type": "not-choiced", "choice": "locked.4"}
+				},
+				{
+					"text": "ВОЙТИ В СОСЕДНЮЮ КОМНАТУ",
+					"result": {
+						"text": "ВЫ ИДЁТЕ ЧЕРЕЗ ОТКРЫТУЮ ДВЕРЬ",
+						"type": "goto",
+						"goto": "room-2"
+					},
+					"condition": {"type": "choiced", "choice": "locked.4"}
+				},
+				{
+					"text": "ОТКРЫТЬ ДВЕРЬ",
+					"results": [
+						{
+							"text": "КЛЮЧ С ТРУДОМ ПРОВОРАЧИВАЕТСЯ В ДВЕРИ...\nВЫ ВХОДИТЕ И ДВЕРЬ ЗАХЛОПЫВАЕТСЯ ЗА ВАМИ",
+							"type": "goto",
+							"goto": "basement",
+							"chance": 0.35
+						},
+						{
+							"text": "ВЫ ПЫТАЕТЕСЬ ПРОВЕРНУТЬ КЛЮЧ, НО МЕХАНИЗМ ЗАКЛИНИЛО\nВЫ ВЫНИМАЕТЕ КЛЮЧ ОБРАТНО",
+							"type": "none",
+							"chance": 0.55
+						},
+						{
+							"text": "ВЫ ПЫТАЕТЕСЬ ПРОВЕРНУТЬ КЛЮЧ, НО ОН РАЗЛАМЫВАЕТСЯ\nОБЛОМОК КЛЮЧА ОСТАЁТСЯ В СКВАЖИНЕ",
+							"type": "get-remove-item",
+							"get_item": "ОБЛОМОК РЖАВОГО КЛЮЧА",
+							"remove_item": "РЖАВЫЙ КЛЮЧ",
+							"chance": 0.1
+						}
+					],
+					"condition": {"type": "has-item", "item": "РЖАВЫЙ КЛЮЧ"}
+				},
+				{
+					"text": "ПОПИТЬ ИЗ КУЛЕРА",
+					"result": {
+						"text": "ОТВРАТИТЕЛЬНО НА ВКУС\nВЫ ЗАМЕЧАЕТЕ НАКЛЕЙКУ \"СЕРТИФИЦИРОВАННОЕ ПОДКЛЮЧЕНИЕ К ТУАЛЕТУ\"",
+						"type": "none"
+					}
+				}
+			]
+		},
+		
+		"fight-1-success": {
+			"name": "fight-1-success",
+			"text": "ВЫ ПОДХОДИТЕ К КОЛЛЕГЕ",
+			"choices": [
+				{
+					"text": "ОБЫСКАТЬ",
+					"results": [
+						{
+							"text": "ВЫ НАХОДИТЕ В КАРМАНАХ КОЛЛЕГИ НЕМНОГО ЧАЯ",
+							"type": "get-item",
+							"item": "ЧАЙНЫЙ ПАКЕТИК",
+							"amount": 3,
+							"chance": 0.2
+						},
+						{
+							"text": "ВЫ НАХОДИТЕ В КАРМАНАХ КОЛЛЕГИ КОФЕ",
+							"type": "get-item",
+							"item": "ДРИП-КОФЕ",
+							"amount": 1,
+							"chance": 0.15
+						},
+						{
+							"text": "В КАРМАНЕ НАШЁЛСЯ КАКОЙ-ТО ПРОПУСК",
+							"type": "get-item",
+							"item": "ПРОПУСК 5 КЛАССА",
+							"chance": 0.3
+						},
+						{
+							"text": "В КАРМАНАХ ПУСТО",
+							"type": "none",
+							"chance": 0.1
+						},
+						{
+							"text": "ВЫ НАХОДИТЕ В КАРМАНЕ ЗАПИСКУ С НЕРАЗБОРЧИВЫМ ТЕКСТОМ: '1234567890-=ЙЦУКЕНГШЩЗХЪ\\ФЫВАПРОЛДЖЭЯЧСМИТЬБЮ.'",
+							"type": "none",
+							"chance": 0.25
+						}
+					],
+					"condition": {"type": "not-choiced", "choice": "fight-1-success.1"}
+				},
+				{
+					"text": "ОТОЙТИ",
+					"result": {
+						"text": "ВЫ ОТХОДИТЕ",
+						"type": "goto",
+						"goto": "room-1"
+					}
+				}
+			]
+		},
+		
+		"street-1": {
+			"name": "street-1",
+			"text": "ВЫ ВИДИТЕ ВОКРУГ СЕБЯ ТОЛЬКО ВЫСОКИЕ ОФИСНЫЕ ЗДАНИЯ",
+			"choices": [
+				{
+					"text": "ВЕРНУТЬСЯ",
+					"result": {
+						"text": "ВЫ ВЛЕЗАЕТЕ В ОФИС ЧЕРЕЗ ОКНО",
+						"type": "goto",
+						"goto": "room-1"
+					}
+				},
+				{
+					"text": "ОГЛЯДЕТЬСЯ",
+					"result": {
+						"text": "ВЫ НАХОДИТЕ НЕБОЛЬШУЮ КОРОБКУ",
+						"type": "sublocation",
+						"choices": [
+							{
+								"text": "ОТКРЫТЬ",
+								"results": [
+									{
+										"text": "В КОРОБКЕ ОКАЗАЛCЯ ЛУЧ ДОБРА",
+										"type": "get-item",
+										"item": "ЛУЧ ДОБРА",
+										"chance": 0.4
+									},
+									{
+										"text": "В КОРОБКЕ ОКАЗАЛИСЬ ЛУЧА ДОБРА",
+										"type": "get-item",
+										"item": "ЛУЧ ДОБРА",
+										"amount": 3,
+										"chance": 0.3
+									},
+									{
+										"text": "КАК ТОЛЬКО ВЫ ОТКРЫЛИ КОРОБКУ, ОНА ВЫПУСТИЛА ЛУЧИ ЗЛА",
+										"type": "goto",
+										"goto": "gameover",
+										"chance": 0.2
+									},
+									{
+										"text": "В КОРОБКЕ ПУСТО",
+										"type": "none",
+										"chance": 0.1
+									},
+									{
+										"text": "",
+										"type": "set-flag",
+										"flag": "street-1.opened-box"
+									}
+								]
+							},
+							{
+								"text": "ИГНОРИРОВАТЬ",
+								"result": {
+										"text": "ВЫ ПРОИГНОРИРОВАЛИ КОРОБКУ",
+										"type": "none"
+								}
+							}
+						]
+					},
+					"condition": {"type": "flag-cleared", "flag": "street-1.opened-box"}
+				}
+			]
+		},
+		
+		"room-2": {
+			"name": "room-2",
+			"text": "ВЫ ВХОДИТЕ В ПРОСТОРНУЮ КОМНАТУ\nТУТ ЕСТЬ ТОРГОВЕЦ, АВТОМАТ ДЛЯ СДАЧИ МЕТАЛЛА И ДВЕ ДВЕРИ",
+			"choices": [
+				{
+					"text": "ВЕРНУТЬСЯ В ОФИС",
+					"result": {
+						"text": "ВЫ ВОЗВРАЩАЕТЕСЬ",
+						"type": "goto",
+						"goto": "locked"
+					}
+				},
+				{
+					"text": "ОБЫСКАТЬ КОМНАТУ",
+					"result": {
+						"text": "ТЩАТЕЛЬНО ОБЫСКАВ ВСЁ, ВЫ НАХОДИТЕ НЕБОЛЬШОЙ ТАЙНИК В СТЕНЕ",
+						"type": "sublocation",
+						"choices": [
+							{
+								"text": "ЗАБРАТЬ ВЕЩИ",
+								"results": [
+									{
+										"text": "ПОШАРИВ ПО ТАЙНИКУ, ВЫ ОБНАРУЖИВАЕТЕ НЕСКОЛЬКО ЛУЧЕЙ ДОБРА",
+										"type": "get-item",
+										"item": "ЛУЧ ДОБРА",
+										"amount": 2,
+										"chance": 0.4
+									},
+									{
+										"text": "В ТАЙНИКЕ ДОВОЛЬНО МНОГО ЧАЯ",
+										"type": "get-item",
+										"item": "ЧАЙНЫЙ ПАКЕТИК",
+										"amount": 5,
+										"chance": 0.2
+									},
+									{
+										"text": "ВЫ НАХОДИТЕ НЕСКОЛЬКО ПРОПУСКОВ",
+										"type": "get-item",
+										"item": "ПРОПУСК 5 КЛАССА",
+										"amount": 2,
+										"chance": 0.3
+									},
+									{
+										"text": "КАК ТОЛЬКО ВЫ ОТКРЫВАЕТЕ ДВЕРЦУ, В ВАС ПОПАДАЮТ ЛУЧИ ЗЛА",
+										"type": "goto",
+										"goto": "gameover",
+										"chance": 0.1
+									}
+								]
+							},
+							{
+								"text": "ИГНОРИРОВАТЬ",
+								"result": {
+									"text": "РЕШИВ НЕ ТРОГАТЬ ТАЙНИК, ВЫ ОТХОДИТЕ ОТ НЕГО\nВЫ ЗАБЫЛИ ГДЕ БЫЛ ТАЙНИК...",
+									"type": "none"
+								}
+							}
+						]
+					},
+					"condition": {"type": "not-choiced", "choice": "room-2.2"}
+				},
+									
+				{
+					"text": "ПОДОЙТИ К ТОРГОВЦУ",
+					"result": {
+						"text": "ТОРГОВЕЦ: ПРИВЕТ!\nМЫ ТОРГУЕМ ЗА ЧАЙНЫЕ ПАКЕТИКИ, ВОТ ЧТО МОГУ ТЕБЕ ПРОДАТЬ:\n1 РЖАВЫЙ КЛЮЧ ЗА 2 ПАКЕТИКА\nПРОПУСК 5 КЛАССА ЗА 4 ПАКЕТИКА\n2 ЛУЧА ДОБРА ЗА 1 ПАКЕТИК\nИ МОГУ КУПИТЬ:\nДРИП-КОФЕ ЗА 4 ПАКЕТИКА\nПРОПУСК 5 КЛАССА ЗА 2 ПАКЕТИКА\n3 ЛУЧА ДОБРА ЗА 1 ПАКЕТИК",
+						"type": "goto",
+						"goto": "merchant-room2-1"
+					}
+				},
+				{
+					"text": "ПОДОЙТИ К АВТОМАТУ",
+					"result": {
+						"text": "ВЫ ПОДХОДИТЕ К АВТОМАТУ\nНА ТУСКЛОМ ЭКРАНЕ ВИДНЫ РАСЦЕНКИ:\nСДАТЬ РЖАВЫЙ КЛЮЧ ЗА 1 ПАКЕТИК\nСДАТЬ 2 ОБЛОМКА РЖАВЫХ КЛЮЧЕЙ ЗА 1 ПАКЕТИК",
+						"type": "goto",
+						"goto": "merchant-room2-2"
+					}
+				},
+				{
+					"text": "ПОДОЙТИ К ПЕРВОЙ ДВЕРИ",
+					"result": {
+						"text": "ВЫ ПОДХОДИТЕ К ДВЕРИ\nВЫ ВИДИТЕ ЭКРАН С НАДПИСЬЮ 'ПРИЛОЖИТЕ ПРОПУСК 5 КЛАССА ИЛИ ВЫШЕ'",
+						"type": "sublocation",
+						"choices": [
+							{
+								"text": "ПРИЛОЖИТЬ И ПРОЙТИ",
+								"result": {
+									"text": "ВЫ ПРИКЛАДЫВАЕТЕ ПРОПУСК И ПРОХОДИТЕ\nДВЕРЬ САМА ЗАКРЫВАЕТСЯ ЗА ВАМИ",
+									"type": "goto",
+									"goto": "room-3"
+								},
+								"condition": {"type": "has-item-from", "items": [{"item": "ПРОПУСК 5 КЛАССА"}, {"item": "ПРОПУСК 4 КЛАССА"}, {"item": "ПРОПУСК 3 КЛАССА"}, {"item": "ПРОПУСК 2 КЛАССА"}, {"item": "ПРОПУСК 1 КЛАССА"}]}
+							},
+							{
+								"text": "ОТОЙТИ",
+								"result": {
+									"text": "ВЫ ОТХОДИТЕ ОТ ДВЕРИ",
+									"type": "goto",
+									"goto": "room-2"
+								}
+							}
+						]
+					}
+				},
+				{
+					"text": "ПОДОЙТИ КО ВТОРОЙ ДВЕРИ",
+					"result": {
+						"text": "ВЫ ПОДХОДИТЕ К ДВЕРИ\nНУЖЕН КЛЮЧ",
+						"type": "sublocation",
+						"choices": [
+							{
+								"text": "ОТКРЫТЬ РЖАВЫМ КЛЮЧОМ",
+								"result": {
+									"text": "КЛЮЧ СЛОМАЛСЯ, КОГДА ВЫ ПОПЫТАЛИСЬ ЕГО ПРОКРУТИТЬ",
+									"type": "get-remove-item",
+									"get_item": "ОБЛОМОК РЖАВОГО КЛЮЧА",
+									"remove_item": "РЖАВЫЙ КЛЮЧ"
+								},
+								"condition": {"type": "has-item", "item": "РЖАВЫЙ КЛЮЧ"}
+							},
+							{
+								"text": "ОТКРЫТЬ КЛЮЧОМ",
+								"result": {
+									"text": "ВЫ ОТКРЫЛИ ДВЕРЬ",
+									"type": "set-flag",
+									"flag": "room-2.opened-door-2"
+								},
+								"condition": {"type": "has-item", "item": "КЛЮЧ"}
+							},
+							{
+								"text": "ОТОЙТИ",
+								"result": {
+									"text": "ВЫ ОТХОДИТЕ ОТ ДВЕРИ",
+									"type": "goto",
+									"goto": "room-2"
+								}
+							}
+						]
+					},
+					"condition": {"type": "flag-cleared", "flag": "room-2.opened-door-2"}
+				},
+				{
+					"text": "ПРОЙТИ ЧЕРЕЗ ВТОРУЮ ДВЕРЬ",
+					"result": {
+						"text": "ВЫ ПРОХОДИТЕ ЧЕРЕЗ ОТКРЫТУЮ ДВЕРЬ",
+						"type": "goto",
+						"goto": "room-4"
+					},
+					"condition": {"type": "flag-set", "flag": "room-2.opened-door-2"}
+				}
+			]
+		},
+		
+		"basement": {
+			"name": "basement",
+			"text": "ВЫ ВИДИТЕ СПУСК В ПОДВАЛ\nТУТ ЕСТЬ КАКОЙ-ТО ПРИБОР, ОН ТРЕБУЕТ ПЯТИЗНАЧНЫЙ КОД\nТАКЖЕ ЗАПИСКА С ТЕКСТОМ '57085'",
+			"choices": [
+				{
+					"text": "ВЕРНУТЬСЯ",
+					"result": {
+						"text": "ВЫ ВОЗВРАЩАЕТЕСЬ",
+						"type": "goto",
+						"goto": "locked"
+					}
+				},
+
+				{
+					"text": "ВВЕСТИ КОД",
+					"result": {
+						"text": "ПРОСТРАНСТВО ИСЧЕЗАЕТ\nВЫ ПОЯВЛЯЕТЕСЬ В ПОДВАЛЕ С ГНИЛЫМИ ПРОДУКТАМИ\nВЫ ВИДИТЕ ИИ-ШЛАКНОГО ПЕРСОНАЖА МОЗГОГНИЛИ",
+						"type": "goto",
+						"goto": "gameover"
+					},
+					"input": {"text": "ВВЕДИТЕ КОД: ", "correct": "08251",
+							  "text_correct": "КОД ВЕРНЫЙ", "text_fail": "КОД НЕВЕРНЫЙ"}
+				}
+			]
+		},
+		
+		"room-3": {
+			"name": "room-3",
+			"texts": ["ВЫ ВИДИТЕ НЕБОЛЬШУЮ КОМНАТУ, ОСВЕЩЁННУЮ ФОНАРИКОМ", "НИЧЕГО НЕ ВИДНО"],
+			"text_conditions": [{"type": "flag-set", "flag": "room-3.light"}, {"type": ""}],
+			"choices": [
+				{
+					"text": "ВЕРНУТЬСЯ",
+					"results": [
+						{
+							"text": "ВЫ ВЫХОДИТЕ ИЗ КОМНАТЫ",
+							"type": "clear-flag",
+							"flag": "room-3.light"
+						},
+						{
+							"text": "",
+							"type": "goto",
+							"goto": "room-2"
+						}
+					]
+				},
+				{
+					"text": "ОСМОТРЕТЬСЯ",
+					"result": {
+						"text": "ВЫ НИЧЕГО НЕ МОЖЕТЕ РАЗГЛЯДЕТЬ",
+						"type": "none"
+					},
+					"condition": {"type": "flag-cleared", "flag": "room-3.light"}
+				},
+				{
+					"text": "ОСМОТРЕТЬСЯ",
+					"result": {
+						"text": "ВЫ НАШЛИ КЛЮЧ",
+						"type": "get-item",
+						"item": "КЛЮЧ"
+					},
+					"conditions": [{"type": "flag-set", "flag": "room-3.light"}, {"type": "not-choiced", "choice": "room-3.3"}]
+				},
+				{
+					"text": "ИДТИ ДАЛЬШЕ",
+					"result": {
+						"text": "ВЫ РЕШИЛИ ИДТИ ДАЛЬШЕ\nВЫ СПОТКНУЛИСЬ ОБ ФОНАРИК",
+						"type": "get-item",
+						"item": "ФОНАРИК"
+					},
+					"condition": {"type": "not-choiced", "choice": "room-3.4"}
+				},
+				{
+					"text": "ВКЛЮЧИТЬ ФОНАРИК",
+					"result": {
+						"text": "ВЫ ВКЛЮЧИЛИ ФОНАРИК И УВИДЕЛИ НЕСКОЛЬКО ЧЕЛОВЕК",
+						"type": "set-flag",
+						"flag": "room-3.light"
+					},
+					"conditions": [{"type": "has-item", "item": "ФОНАРИК"}, {"type": "flag-cleared", "flag": "room-3.light"}]
+				},
+				{
+					"text": "ПОДОЙТИ К ЛЮДЯМ",
+					"result": {
+						"text": "ВЫ ПОДХОДИТЕ К ГРУППЕ ЛЮДЕЙ",
+						"type": "goto",
+						"goto": "dialog-room3-1"
+					},
+					"condition": {"type": "flag-set", "flag": "room-3.light"}
+				},
+				{
+					"text": "ПОПРОСИТЬ ПОМОЩИ",
+					"result": {
+						"text": "У ТЕБЯ ВСЁ ЕСТЬ",
+						"type": "none"
+					},
+					"conditions": [{"type": "has-item", "item": "ЛУЧ ДОБРА"}, {"type": "not-choiced", "choice": "room-3.8"}, {"type": "flag-set", "flag": "room-3.light"}]
+				},
+				{
+					"text": "ПОПРОСИТЬ ПОМОЩИ",
+					"result": {
+						"text": "У ТЕБЯ НЕТ ЛУЧЕЙ ДОБРА...\nВОЗЬМИ ОДИН, ТЕБЕ МОЖЕТ ПРИГОДИТЬСЯ, НО БОЛЬШЕ НЕ ДАДИМ",
+						"type": "get-item",
+						"item": "ЛУЧ ДОБРА"
+					},
+					"conditions": [{"type": "no-item", "item": "ЛУЧ ДОБРА"}, {"type": "not-choiced", "choice": "room-3.8"}, {"type": "flag-set", "flag": "room-3.light"}]
+				}
+			]
+		},
+		
+		"room-4": {
+			"name": "room-4",
+			"text": "ВЫ ВИДИТЕ КОРИДОР. ЗА УГЛОМ ЧТО-ТО ЕСТЬ, НО ВЫ НЕ ЗНАЕТЕ ЧТО",
+			"choices": [
+				{
+					"text": "ВЕРНУТЬСЯ",
+					"result": {
+						"text": "ВЫ ВОЗВРАЩАЕТЕСЬ",
+						"type": "goto",
+						"goto": "room-2"
+					}
+				},
+				{
+					"text": "ЗАЙТИ ЗА УГОЛ",
+					"result": {
+						"text": "ВЫ ИДЁТЕ ЗА УГОЛ",
+						"type": "goto",
+						"goto": "room-5"
+					}
+				},
+				{
+					"text": "ОБЫСКАТЬ СТЕНЫ",
+					"result": {
+						"text": "ВЫ ВИДИТЕ СПРЯТАННЫЙ СЕЙФ ОХРАНЫ, ОН ТРЕБУЕТ 4-Х ЗНАЧНЫЙ КОД",
+						"type": "sublocation",
+						"choices": [
+							{
+								"text": "ВВЕСТИ КОД",
+								"results": [
+									{
+										"text": "ВЫ НАШЛИ ЛУЧЕМЁТ",
+										"type": "get-item",
+										"item": "ЛУЧЕМЁТ"
+									},
+									{
+										"text": "",
+										"type": "set-flag",
+										"flag": "room-4.pistol"
+									}
+								],
+								"input": {"text": "ВВЕДИТЕ КОД: ", "correct": "3259",
+										  "text_correct": "КОД ВЕРНЫЙ", "text_fail": "КОД НЕВЕРНЫЙ"}
+							},
+							{
+								"text": "ИГНОРИРОВАТЬ",
+								"result": {
+									"text": "ВЫ РЕШИЛИ НЕ ТРОГАТЬ СЕЙФ",
+									"type": "none"
+								}
+							}
+						]
+					},
+					"condition": {"type": "flag-cleared", "flag": "room-4.pistol"}
+				}
+			]
+		},
+		
+		"room-5": {
+			"name": "room-5",
+			"texts": ["ВЫ ВИДИТЕ ОХРАННИКА", "ВЫ ВИДИТЕ СПЯЩЕГО ОХРАННИКА"],
+			"text_conditions": [{"type": "flag-cleared", "flag": "room-5.defeated-guard"}, {"type": ""}],
+			"choices": [
+				{
+					"text": "БЕЖАТЬ ОБРАТНО",
+					"results": [
+						{
+							"text": "В ВАС ПОПАЛИ ЛУЧОМ ЗЛА",
+							"type": "goto",
+							"goto": "gameover",
+							"chance": 0.3
+						},
+						{
+							"text": "ВАМ УДАЛОСЬ СБЕЖАТЬ",
+							"type": "goto",
+							"goto": "room-4",
+							"chance": 0.7
+						}
+					],
+					"condition": {"type": "flag-cleared", "flag": "room-5.defeated-guard"}
+				},
+				{
+					"text": "ВЫПУСКАТЬ ЛУЧИ ДОБРА",
+					"results": [
+						{
+							"text": "",
+							"type": "remove-item",
+							"item": "ЛУЧ ДОБРА"
+						},
+						{
+							"text": "ВЫ ВЫПУСКАЕТЕ ЛУЧ ДОБРА И ПРОМАХИВАЕТЕСЬ\nОХРАННИК ПРОМАХИВАЕТСЯ",
+							"type": "none",
+							"chance": 0.4
+						},
+						{
+							"text": "ВЫ ВЫПУСКАЕТЕ ЛУЧ ДОБРА И ПРОМАХИВАЕТЕСЬ\nОХРАННИК ПОПАДАЕТ В ВАС ЛУЧОМ ЗЛА",
+							"type": "goto",
+							"goto": "gameover",
+							"chance": 0.1
+						},
+						{
+							"text": "ВЫ ВЫПУСКАЕТЕ ЛУЧ ДОБРА И ПОПАДАЕТЕ\nОХРАННИК ЗАСЫПАЕТ",
+							"type": "set-flag",
+							"flag": "room-5.defeated-guard",
+							"chance": 0.5
+						}
+					],
+					"conditions": [{"type": "has-item", "item": "ПИСТОЛЕТ"}, {"type": "has-item", "item": "ЛУЧ ДОБРА"}, {"type": "flag-cleared", "flag": "room-5.defeated-guard"}]
+				},
+				{
+					"text": "ВЕРНУТЬСЯ",
+					"result": {
+						"text": "ВЫ ИДЁТЕ ОБРАТНО",
+						"type": "goto",
+						"goto": "room-4"
+					},
+					"conditions": [{"type": "flag-set", "flag": "room-5.defeated-guard"}]
+				},
+				{
+					"text": "ОСМОТРЕТЬ ОХРАННИКА",
+					"result": {
+						"text": "У ОХРАННИКА БЫЛИ ЛУЧЕМЁТ, ЛУЧ И ПРОПУСК",
+						"type": "get-items",
+						"items": ["ЛУЧЕМЁТ", "ЛУЧ ДОБРА", "ПРОПУСК 4 КЛАССА"],
+						"amounts": [1, 1, 1]
+					},
+					"conditions": [{"type": "flag-set", "flag": "room-5.defeated-guard"}, {"type": "not-choiced", "choice": "room-5.4"}]
+				},
+				{
+					"text": "ИДТИ ДАЛЬШЕ",
+					"result": {
+						"text": "ВЫ ШЛИ ПО КОРИДОРУ\nВНЕЗАПНО ПУТЬ ОБРАТНО ЗАВАЛИЛО\nПУТИ НАЗАД НЕТ",
+						"type": "goto",
+						"goto": "room-6"
+					},
+					"condition": {"type": "flag-set", "flag": "room-5.defeated-guard"}
+				}
+			]
+		},
+		
+		"room-6": {
+			"name": "room-6",
+			"text": "ВЫ ВИДИТЕ ПРОХОДЫ НАПРАВО И НАЛЕВО, А ТАКЖЕ МНОГО ОКОН",
+			"choices": [
+				{
+					"text": "ОСМОТРЕТЬ ПОМЕЩЕНИЕ",
+					"result": {
+						"text": "ВЫ НАХОДИТЕ КНИЖКУ 'РУКОВОДСТВО ПО КВЕСТУ'",
+						"type": "goto",
+						"goto": "dialog-room6-1"
+					}
+				},
+				{
+					"text": "ИДТИ НАПРАВО",
+					"result": {
+						"text": "ВЫ ИДЁТЕ НАПРАВО",
+						"type": "goto",
+						"goto": "room-pre7"
+					}
+				},
+				{
+					"text": "ИДТИ НАЛЕВО",
+					"result": {
+						"text": "ВЫ ИДЁТЕ НАЛЕВО",
+						"type": "goto",
+						"goto": "room-8"
+					}
+				}
+			]
+		},
+		
+		"room-8": {
+			"name": "room-8",
+			"text": "ВЫ ВИДИТЕ ПУСТУЮ БЕЛУЮ КОМНАТУ",
+			"choices": [
+				{
+					"text": "ВЕРНУТЬСЯ",
+					"result": {
+						"text": "ВЫ ВОЗВРАЩАЕТЕСЬ",
+						"type": "goto",
+						"goto": "room-6"
+					}
+				},
+				{
+					"text": "ИДТИ ПРЯМО",
+					"result": {
+						"text": "ВЫ ИДЁТЕ ПРЯМО",
+						"type": "goto",
+						"goto": "shop"
+					}
+				},
+				{
+					"text": "ИДТИ НАПРАВО",
+					"result": {
+						"text": "ВЫ ИДЁТЕ НАПРАВО",
+						"type": "goto",
+						"goto": "room-9"
+					}
+				}
+			]
+		},
+		
+		"shop": {
+			"name": "shop",
+			"text": "ВЫ ВИДИТЕ МНОГА ТАРГОВЦЕВ, НО ОНИ ПОКА НЕДОДЕЛАНЫ",
+			"choices": [
+				{
+					"text": "ВЕРНУТЬСЯ",
+					"result": {
+						"text": "ВЫ ВОЗВРАЩАЕТЕСЬ",
+						"type": "goto",
+						"goto": "room-8"
+					}
+				},
+				{
+					"text": "ТОРГОВЕЦ ПРОПУСКАМИ",
+					"result": {
+						"text": "ТОРГОВЕЦ: ПРИВЕТ!\nВОТ ЧТО МОГУ ТЕБЕ ПРОДАТЬ:\nПРОПУСК 5 КЛАССА ЗА 4 ПАКЕТИКА\nПРОПУСК 4 КЛАССА ЗА 10 ПАКЕТИКОВ\nИ МОГУ КУПИТЬ:\nПРОПУСК 5 КЛАССА ЗА 2 ПАКЕТИКА\nПРОПУСК 4 КЛАССА ЗА 7 ПАКЕТИКОВ",
+						"type": "goto",
+						"goto": "merchant-shop-1"
+					}
+				}
+			]
+		},
+		
+		"room-pre7": {
+			"name": "room-pre7",
+			"text": "ВЫ ПОДХОДИТЕ К ДВЕРИ\nВЫ ВИДИТЕ ЭКРАН С НАДПИСЬЮ 'ПРИЛОЖИТЕ ПРОПУСК 3 КЛАССА ИЛИ ВЫШЕ'",
+			"choices": [
+				{
+					"text": "ПРИЛОЖИТЬ И ПРОЙТИ",
+					"result": {
+						"text": "ВЫ ПРИКЛАДЫВАЕТЕ ПРОПУСК И ПРОХОДИТЕ\nДВЕРЬ САМА ЗАКРЫВАЕТСЯ ЗА ВАМИ",
+						"type": "goto",
+						"goto": "room-7"
+					},
+					"condition": {"type": "has-item-from", "items": [{"item": "ПРОПУСК 3 КЛАССА"}, {"item": "ПРОПУСК 2 КЛАССА"}, {"item": "ПРОПУСК 1 КЛАССА"}]}
+				},
+				{
+					"text": "ОТОЙТИ",
+					"result": {
+						"text": "ВЫ ОТХОДИТЕ ОТ ДВЕРИ",
+						"type": "goto",
+						"goto": "room-6"
+					}
+				}
+			]
+		},
+
+		"gameover": {
+			"name": "gameover",
+			"text": "ВЫ ЗАСНУЛИ",
+			"choices": [
+				{
+					"text": "ДАДАДАДАДАДА",
+					"result": {
+						"text": "ИГРА ОКОНЧЕНА",
+						"type": "end"
+					}
+				}
+			]
+		},
+		
+		"win": {
+			"name": "win",
+			"text": "ВЫ ПОБЕДИЛИ!",
+			"choices": [
+				{
+					"text": "УРА!",
+					"result": {
+						"text": "СПАСИБО ЗА ПРОХОЖДЕНИЕ БЕТА-ВЕРСИИ КВЕСТА",
+						"type": "end"
+					},
+					"condition": {"type": "flag-cleared", "flag": "global.ptsd"}
+				}
+			]
+		}			
+	},
+	
+	"templates": {
+		"merchant": {
+			"name": "$(name)",
+			"text": "$(text)",
+			"choices": [
+				{
+					"type": "multi",
+					"category": "sells",
+					"text": "КУПИТЬ $(sells.amount)x $(sells.item) ЗА $(sells.price) ПАКЕТИК$(sells.ending)",
+					"result": {
+						"text": "$(thx_text)",
+						"type": "get-remove-item",
+						"get_item": "$(sells.item)",
+						"get_amount": "$(sells.amount)",
+						"remove_item": "ЧАЙНЫЙ ПАКЕТИК",
+						"remove_amount": "$(sells.price)"
+					},
+					"condition": {"type": "has-item", "item": "ЧАЙНЫЙ ПАКЕТИК", "amount": "$(sells.price)"}
+				},
+				{
+					"type": "multi",
+					"category": "buys",
+					"text": "ПРОДАТЬ $(buys.amount)x $(buys.item) ЗА $(buys.price) ПАКЕТИК$(buys.ending)",
+					"result": {
+						"text": "$(thx_text)",
+						"type": "get-remove-item",
+						"get_item": "ЧАЙНЫЙ ПАКЕТИК",
+						"get_amount": "$(buys.price)",
+						"remove_item": "$(buys.item)",
+						"remove_amount": "$(buys.amount)"
+					},
+					"condition": {"type": "has-item", "item": "$(buys.item)", "amount": "$(buys.amount)"}
+				},
+				{
+					"type": "single",
+					"text": "$(exit_text)",
+					"result": {
+						"text": "$(exit_text_result)",
+						"type": "goto",
+						"goto": "$(location)"
+					}
+				}
+			]
+		},
+		"dialog": {
+			"name": "$(name)",
+			"text": "$(text)",
+			"choices": [
+				{
+					"type": "multi",
+					"category": "idk",
+					"text": "$(idk.player)",
+					"result": {
+						"text": "$(idk.answer)",
+						"type": "none"
+					}
+				},
+				{
+					"type": "single",
+					"text": "$(bye_player)",
+					"result": {
+						"text": "$(bye_text)",
+						"type": "goto",
+						"goto": "$(location)"
+					}
+				}
+			]
+		}
+	},
+	"templated_locations": {
+		"merchant-room2-1": {
+			"template": "merchant",
+			"params": {
+				"name": "merchant-room2-1",
+				"text": "ЧТО ХОЧЕШЬ КУПИТЬ ИЛИ ПРОДАТЬ?",
+				"exit_text": "ЗАКОНЧИТЬ РАЗГОВОР",
+				"exit_text_result": "ТОРГОВЕЦ: ПОКА!",
+				"thx_text": "СПАСИБО ЗА ПОКУПКУ",
+				"location": "room-2",
+				"sells": [
+					{"amount": 1, "item": "РЖАВЫЙ КЛЮЧ", "price": 2, "ending": "А"},
+					{"amount": 1, "item": "ПРОПУСК 5 КЛАССА", "price": 4, "ending": "А"},
+					{"amount": 2, "item": "ЛУЧ ДОБРА", "price": 1, "ending": ""}
+				],
+				"buys": [
+					{"amount": 1, "item": "ДРИП-КОФЕ", "price": 4, "ending": "А"},
+					{"amount": 1, "item": "ПРОПУСК 5 КЛАССА", "price": 2, "ending": "А"},
+					{"amount": 3, "item": "ЛУЧ ДОБРА", "price": 1, "ending": ""}
+				]
+			}
+		},
+		"merchant-room2-2": {
+			"template": "merchant",
+			"params": {
+				"name": "merchant-room2-2",
+				"text": "АВТОМАТ: ВЫБЕРИТЕ ОПЦИЮ",
+				"exit_text": "ОТОЙТИ ОТ АВТОМАТА",
+				"exit_text_result": "ВЫ ОТХОДИТЕ ОТ АВТОМАТА",
+				"thx_text": "СПАСИБО ЗА СОТРУДНИЧЕСТВО",
+				"location": "room-2",
+				"sells": [],
+				"buys": [
+					{"amount": 1, "item": "РЖАВЫЙ КЛЮЧ", "price": 1, "ending": ""},
+					{"amount": 2, "item": "ОБЛОМОК РЖАВОГО КЛЮЧА", "price": 1, "ending": ""}
+				]
+			}
+		},
+		"merchant-shop-1": {
+			"template": "merchant",
+			"params": {
+				"name": "merchant-shop-1",
+				"text": "ЧТО ХОЧЕШЬ КУПИТЬ ИЛИ ПРОДАТЬ?",
+				"exit_text": "ЗАКОНЧИТЬ РАЗГОВОР",
+				"exit_text_result": "ТОРГОВЕЦ: ПОКА!",
+				"thx_text": "СПАСИБО ЗА ПОКУПКУ",
+				"location": "shop",
+				"sells": [
+					{"amount": 1, "item": "ПРОПУСК 5 КЛАССА", "price": 4, "ending": "А"},
+					{"amount": 1, "item": "ПРОПУСК 4 КЛАССА", "price": 10, "ending": "ОВ"}
+				],
+				"buys": [
+					{"amount": 1, "item": "ПРОПУСК 5 КЛАССА", "price": 2, "ending": "А"},
+					{"amount": 1, "item": "ПРОПУСК 4 КЛАССА", "price": 7, "ending": "ОВ"}
+				]
+			}
+		},
+		"merchant-shop-2": {
+			"template": "merchant",
+			"params": {
+				"name": "merchant-shop-2",
+				"text": "ЧТО ХОЧЕШЬ КУПИТЬ ИЛИ ПРОДАТЬ?",
+				"exit_text": "ЗАКОНЧИТЬ РАЗГОВОР",
+				"exit_text_result": "ТОРГОВЕЦ: ПОКА!",
+				"thx_text": "СПАСИБО ЗА ПОКУПКУ",
+				"location": "shop",
+				"sells": [
+					{"amount": 1, "item": "ПИСТОЛЕТ", "price": 20, "ending": "ОВ"},
+					{"amount": 3, "item": "ЛУЧ ДОБРА", "price": 1, "ending": ""}
+				],
+				"buys": []
+			}
+		},
+		"merchant-shop-3": {
+			"template": "merchant",
+			"params": {
+				"name": "merchant-shop-3",
+				"text": "ЧТО ХОЧЕШЬ КУПИТЬ ИЛИ ПРОДАТЬ?",
+				"exit_text": "ЗАКОНЧИТЬ РАЗГОВОР",
+				"exit_text_result": "ТОРГОВЕЦ: ПОКА!",
+				"thx_text": "СПАСИБО ЗА ПОКУПКУ",
+				"location": "shop",
+				"sells": [],
+				"buys": [
+					{"amount": 1, "item": "ДРИП-КОФЕ", "price": 5, "ending": "ОВ"},
+					{"amount": 1, "item": "ФОНАРИК", "price": 7, "ending": "ОВ"}
+				]
+			}
+		},
+		"dialog-room3-1": {
+			"template": "dialog",
+			"params": {
+				"name": "dialog-room3-1",
+				"text": "ЧТО СКАЗАТЬ?",
+				"bye_player": "ЗАКОНЧИТЬ РАЗГОВОР",
+				"idk": [
+					{"player": "ЧТО ЗДЕСЬ ПРОИСХОДИТ?", "answer": "НАС ВСЕХ ЗАБРАЛ В РАБСТВО МАЙКРОСОФТ\nТЕПЕРЬ МЫ ДУМАЕМ, КАК ВЫБРАТЬСЯ"},
+					{"player": "КАК У ВАС ВСЁ УСТРОЕНО?", "answer": "В ОСНОВНОМ МЫ ТОРГУЕМ ЗА ЧАЙНЫЕ ПАКЕТИКИ, ТАКЖЕ ЦЕНИТСЯ КОФЕ\nБЕРЕГИ ПРОПУСКА, КЛЮЧИ И ЛУЧЕМЁТ"}
+				],
+				"bye_text": "УДАЧИ!",
+				"location": "room-3"
+			}
+		},
+		"dialog-room6-1": {
+			"template": "dialog",
+			"params": {
+				"name": "dialog-room6-1",
+				"text": "ОГЛАВЛЕНИЕ:\n1. ТОРГОВЛЯ\n2. ПРОПУСКА\n3. КЛЮЧИ\n4. ОРУЖИЕ\n5. ПРОЧИЕ ПРЕДМЕТЫ\n\nВЫБЕРИТЕ ГЛАВУ:",
+				"bye_player": "ЗАКРЫТЬ КНИГУ",
+				"idk": [
+					{"player": "ОТКРЫТЬ ГЛАВУ 'ТОРГОВЛЯ'", "answer": "В ЭТОМ КВЕСТЕ ТОРГОВЛЯ ПРОИСХОДИТ ЗА ЧАЙНЫЕ ПАКЕТИКИ\nВСЕ ТОРГОВЦЫ БУДУТ ИСПОЛЬЗОВАТЬ ИМЕННО ИХ ПРИ РАССЧЁТАХ"},
+					{"player": "ОТКРЫТЬ ГЛАВУ 'ПРОПУСКА'", "answer": "ПРОПУСКА БЫВАЮТ 5 УРОВНЕЙ: ОТ 5 (САМЫЙ НИЗКИЙ) ДО 1 (САМЫЙ ВЫСОКИЙ)\nПРОПУСК БОЛЕЕ НИЗКОГО УРОВНЯ ВСЕГДА МОЖНО ЗАМЕНИТЬ ПРОПУСКОМ БОЛЕЕ ВЫСОКОГО\nКАК ПРАВИЛО, ПРОПУСКА НЕ РАСХОДУЮТСЯ ПРИ ПРИМЕНЕНИИ"},
+					{"player": "ОТКРЫТЬ ГЛАВУ 'КЛЮЧИ'", "answer": "КЛЮЧИ ИМЕЮТ СХОДСТВО С ПРОПУСКАМИ, НО НЕ ВЗАИМОЗАМЕНЯЕМЫ\nНА ДАННЫЙ МОМЕНТ В КВЕСТЕ ВСЕГО 2 ВИДА КЛЮЧЕЙ: РЖАВЫЙ И ОБЫЧНЫЙ\nПРИ ПРИМЕНЕНИИ ПРОПАДАЮТ"},
+					{"player": "ОТКРЫТЬ ГЛАВУ '******'", "answer": "****** ПРИМЕНЯЕТСЯ В БИТВАХ\nКАЖДОЕ ИМЕЕТ СВОЙ ТИП ***********, КОТОРЫЕ РАСХОДУЮТСЯ ПРИ ИСПОЛЬЗОВАНИИ\nНА ДАННЫЙ МОМЕНТ ЕДИНСТВЕННЫЙ ВИД ****** - ЛУЧЕМЁТ"},
+					{"player": "ОТКРЫТЬ ГЛАВУ 'ПРОЧИЕ ПРЕДМЕТЫ'", "answer": "ПОМИМО ПРЕДМЕТОВ ИЗ ПРОШЛЫХ ГЛАВ, В КВЕСТЕ МОЖНО НАЙТИ\n1. ДРИП-КОФЕ - МОЖНО ДОРОГО ПРОДАТЬ ТОРГОВЦАМ\n2. ФОНАРИК - НУЖЕН ДЛЯ ОСВЕЩЕНИЯ НЕКОТОРЫХ ЛОКАЦИЙ"}
+				],
+				"bye_text": "ВЫ ЗАКРЫВАЕТЕ КНИГУ",
+				"location": "room-6"
+			}
+		}
+	},
+	"items": {
+		"ЧАЙНЫЙ ПАКЕТИК": {"desc": "ОБЫЧНЫЙ ЧАЙНЫЙ ПАКЕТИК"},
+		"РЖАВЫЙ КЛЮЧ": {"desc": "ПОЛНОСТЬЮ ПРОРЖАВЕВШИЙ И ЯВНО НЕ ОЧЕНЬ ПРОЧНЫЙ КЛЮЧ"},
+		"ОБЛОМОК РЖАВОГО КЛЮЧА": {"desc": "НЕПРИГОДЕН К ИСПОЛЬЗОВАНИЮ"},
+		"ДРИП-КОФЕ": {"desc": "НУ КАКОЙ-ТО КОФЕ"},
+		"ПРОПУСК 5 КЛАССА": {"desc": "САМЫЙ НИЗКИЙ КЛАСС ПРОПУСКА"},
+		"ЛУЧ ДОБРА": {"desc": "ОЧЕНЬ ХОРОШИЙ ЛУЧ ДЛЯ ЛУЧЕМЁТА"},
+		"КЛЮЧ": {"desc": "НОВЕНЬКИЙ БЛЕСТЯЩИЙ МЕТАЛЛИЧЕСКИЙ КЛЮЧ"},
+		"ФОНАРИК": {"desc": "ПОРТАТИВНЫЙ ИСТОЧНИК СВЕТА"},
+		"ЛУЧЕМЁТ": {"desc": "ИСПОЛЬЗУЕТ ЛУЧИ ДОБРА!!!!11!1!!"},
+		"ПРОПУСК 4 КЛАССА": {"desc": "ПРОПУСК БОЛЕЕ ВЫСОКОГО КЛАССА"}
+	}
+}
