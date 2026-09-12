@@ -838,8 +838,11 @@
 			"choices": [
 				{
 					"text": "БЕЖАТЬ",
-					"type": "goto",
-					"goto": "win"
+					"result": {
+						"text": "ВЫ СБЕЖАЛИ",
+						"type": "goto",
+						"goto": "win"
+					}
 				}
 			]
 		},
