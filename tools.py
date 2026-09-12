@@ -35,7 +35,7 @@ def execute_result(result):
     res_type=result.get("type",'none')
     if result["text"]:
         print()
-        print(result["text"])
+        _sleep_print(result["text"])
         print()
     if res_type=='goto':
         return result["goto"]
